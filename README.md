@@ -1,10 +1,10 @@
 [English](README.md) | [日本語](README.ja.md)
 
-# C# Sandbox
+# C# Benchmarks
 
 [![GitHub Actions](../../actions/workflows/build.yml/badge.svg)](../../actions)
 
-This repository is used to store test or experimental code.
+This repository is used to store benchmark tests for implementations.
 
 ## License
 
