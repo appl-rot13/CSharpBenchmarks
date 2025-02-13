@@ -8,21 +8,54 @@ jobs:
   find-solutions:
     runs-on: ubuntu-latest
     outputs:
-      solutions: ${{ steps.find-solutions.outputs.solutions }}
+      solutions: ${{ steps.get-affected-solution-files.outputs.solutions }}
 
     steps:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Find solutions
-      id: find-solutions
+    - name: Get changed files
+      id: get-changed-files
+      uses: tj-actions/changed-files@v45
+      with:
+        since_last_remote_commit: true
+
+    - name: Get affected solution files
+      id: get-affected-solution-files
+      env:
+        CHANGED_FILES: ${{ steps.get-changed-files.outputs.all_changed_files }}
       run: |
-        solutions_as_json=$(find . -type f -name "*.sln" | jq -R -s -c 'split("\n")[:-1]')
-        echo "solutions=${solutions_as_json}" >> "${GITHUB_OUTPUT}"
+        find_affected_solution_files() {
+          find . -type f -name "*.sln" | while IFS= read -r solution_file; do
+            solution_dir=$(dirname "$solution_file")
+            for changed_file in ${CHANGED_FILES}; do
+              if [[ "./$changed_file" == "$solution_dir"* ]]; then
+                echo "$solution_file"
+                break
+              fi
+            done
+          done
+        }
+
+        echo "Changed files:"
+        for changed_file in ${CHANGED_FILES}; do
+          echo "./$changed_file"
+        done
+        echo ""
+
+        echo "Affected solution files:"
+        affected_solution_files=$(find_affected_solution_files)
+        echo "$affected_solution_files"
+
+        if [[ -n "$affected_solution_files" ]]; then
+          solutions_as_json=$(echo "$affected_solution_files" | jq -R -s -c 'split("\n")[:-1]')
+          echo "solutions=${solutions_as_json}" >> "${GITHUB_OUTPUT}"
+        fi
 
   build-and-test:
     runs-on: ubuntu-latest
     needs: find-solutions
+    if: ${{ needs.find-solutions.outputs.solutions != '' && needs.find-solutions.outputs.solutions != '[]' }}
     strategy:
       fail-fast: false
       matrix:
