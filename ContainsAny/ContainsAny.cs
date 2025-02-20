@@ -12,4 +12,9 @@ public class ContainsAny
     {
         return source.AsSpan().ContainsAny(SearchValues.Create(keywords, comparisonType));
     }
+
+    public static bool WithSpanPrepared(string source, SearchValues<string> values)
+    {
+        return source.AsSpan().ContainsAny(values);
+    }
 }

@@ -1,4 +1,6 @@
 ﻿
+using System.Buffers;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
@@ -14,6 +16,12 @@ public class ContainsAnyTest
     public void WithSpanTest()
     {
         Test((source, keywords) => ContainsAny.WithSpan(source, keywords, StringComparison.Ordinal));
+    }
+
+    [TestMethod]
+    public void WithSpanPreparedTest()
+    {
+        Test((source, keywords) => ContainsAny.WithSpanPrepared(source, SearchValues.Create(keywords, StringComparison.Ordinal)));
     }
 
     private static void Test(Func<string, string[], bool> containsAny)
