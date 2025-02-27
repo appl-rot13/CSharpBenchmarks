@@ -1,4 +1,5 @@
 ﻿
+using System.Runtime.CompilerServices;
 using System.Text;
 
 public class StringConcat
@@ -44,5 +45,30 @@ public class StringConcat
         }
 
         return builder.ToString();
+    }
+
+    public static string StringCreate(string chars, int[] indexes)
+    {
+        return string.Create(
+            indexes.Length,
+            (chars, indexes),
+            (buffer, state) =>
+            {
+                for (var i = 0; i < buffer.Length; i++)
+                {
+                    buffer[i] = state.chars[state.indexes[i] - 1];
+                }
+            });
+    }
+
+    public static string DefaultInterpolatedStringHandler(string chars, int[] indexes)
+    {
+        var builder = new DefaultInterpolatedStringHandler(0, 0);
+        foreach (var i in indexes)
+        {
+            builder.AppendFormatted(chars[i - 1]);
+        }
+
+        return builder.ToStringAndClear();
     }
 }

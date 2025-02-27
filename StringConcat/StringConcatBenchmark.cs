@@ -39,4 +39,16 @@ public class StringConcatBenchmark
     {
         return StringConcat.BuilderSpecifiedCapacity(Chars, Indexes);
     }
+
+    [Benchmark]
+    public string StringCreate()
+    {
+        return StringConcat.StringCreate(Chars, Indexes);
+    }
+
+    [Benchmark]
+    public string DefaultInterpolatedStringHandler()
+    {
+        return StringConcat.DefaultInterpolatedStringHandler(Chars, Indexes);
+    }
 }

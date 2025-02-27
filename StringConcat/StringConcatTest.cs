@@ -34,6 +34,18 @@ public class StringConcatTest
         Test(StringConcat.BuilderSpecifiedCapacity);
     }
 
+    [TestMethod]
+    public void StringCreateTest()
+    {
+        Test(StringConcat.StringCreate);
+    }
+
+    [TestMethod]
+    public void DefaultInterpolatedStringHandlerTest()
+    {
+        Test(StringConcat.DefaultInterpolatedStringHandler);
+    }
+
     private static void Test(Func<string, int[], string> concat)
     {
         concat("0123456789abcdef", [1, 2, 3, 4, 5, 6, 7, 8]).Is("01234567");
