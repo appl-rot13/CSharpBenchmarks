@@ -1,6 +1,8 @@
 ﻿
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Shouldly;
+
 [TestClass]
 public class CompareByteArrayTest
 {
@@ -48,7 +50,7 @@ public class CompareByteArrayTest
 
         foreach (var (first, second, expected) in testCase)
         {
-            compareByteArray(first, second).Is(expected);
+            compareByteArray(first, second).ShouldBe(expected);
         }
     }
 }

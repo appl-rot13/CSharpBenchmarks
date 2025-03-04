@@ -1,6 +1,8 @@
 ﻿
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Shouldly;
+
 [TestClass]
 public class StringConcatTest
 {
@@ -48,6 +50,6 @@ public class StringConcatTest
 
     private static void Test(Func<string, int[], string> concat)
     {
-        concat("0123456789abcdef", [1, 2, 3, 4, 5, 6, 7, 8]).Is("01234567");
+        concat("0123456789abcdef", [1, 2, 3, 4, 5, 6, 7, 8]).ShouldBe("01234567");
     }
 }
