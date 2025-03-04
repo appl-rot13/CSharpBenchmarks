@@ -3,6 +3,8 @@ using System.Buffers;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Shouldly;
+
 [TestClass]
 public class ContainsAnyTest
 {
@@ -36,7 +38,7 @@ public class ContainsAnyTest
 
         foreach (var (source, keywords, expected) in testCase)
         {
-            containsAny(source, keywords).Is(expected);
+            containsAny(source, keywords).ShouldBe(expected);
         }
     }
 }
