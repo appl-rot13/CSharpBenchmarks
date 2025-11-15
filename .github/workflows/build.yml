@@ -6,7 +6,7 @@ on:
 
 jobs:
   find-solutions:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     outputs:
       solutions: ${{ steps.get-affected-solution-files.outputs.solutions }}
 
@@ -65,7 +65,7 @@ jobs:
         fi
 
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     needs: find-solutions
     if: ${{ needs.find-solutions.outputs.solutions != '' && needs.find-solutions.outputs.solutions != '[]' }}
     strategy:
