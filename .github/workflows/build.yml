@@ -15,58 +15,58 @@ jobs:
       solutions: ${{ steps.get-affected-solution-files.outputs.solutions }}
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-    - name: Get changed files
-      id: get-changed-files
-      uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
-      with:
-        since_last_remote_commit: true
+      - name: Get changed files
+        id: get-changed-files
+        uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
+        with:
+          since_last_remote_commit: true
 
-    - name: Get affected solution files
-      id: get-affected-solution-files
-      env:
-        CHANGED_FILES: ${{ steps.get-changed-files.outputs.all_changed_files }}
-      run: |
-        find_all_solution_files() {
-          find . -type f \( -name "*.sln" -o -name "*.slnx" \)
-        }
+      - name: Get affected solution files
+        id: get-affected-solution-files
+        env:
+          CHANGED_FILES: ${{ steps.get-changed-files.outputs.all_changed_files }}
+        run: |
+          find_all_solution_files() {
+            find . -type f \( -name "*.sln" -o -name "*.slnx" \)
+          }
 
-        find_affected_solution_files() {
-          find_all_solution_files | while IFS= read -r solution_file; do
-            solution_dir=$(dirname "$solution_file")
-            for changed_file in ${CHANGED_FILES}; do
-              if [[ "./$changed_file" == "$solution_dir"* ]]; then
-                echo "$solution_file"
-                break
-              fi
+          find_affected_solution_files() {
+            find_all_solution_files | while IFS= read -r solution_file; do
+              solution_dir=$(dirname "$solution_file")
+              for changed_file in ${CHANGED_FILES}; do
+                if [[ "./$changed_file" == "$solution_dir"* ]]; then
+                  echo "$solution_file"
+                  break
+                fi
+              done
             done
+          }
+
+          echo "Changed files:"
+          workflow_file_changed="false"
+          for changed_file in ${CHANGED_FILES}; do
+            echo "./$changed_file"
+            if [[ "./$changed_file" == "./.github/workflows/"* ]]; then
+              workflow_file_changed="true"
+            fi
           done
-        }
+          echo ""
 
-        echo "Changed files:"
-        workflow_file_changed="false"
-        for changed_file in ${CHANGED_FILES}; do
-          echo "./$changed_file"
-          if [[ "./$changed_file" == "./.github/workflows/"* ]]; then
-            workflow_file_changed="true"
+          echo "Affected solution files:"
+          if [[ "$workflow_file_changed" == "true" ]]; then
+            affected_solution_files=$(find_all_solution_files)
+          else
+            affected_solution_files=$(find_affected_solution_files)
           fi
-        done
-        echo ""
+          echo "$affected_solution_files"
 
-        echo "Affected solution files:"
-        if [[ "$workflow_file_changed" == "true" ]]; then
-          affected_solution_files=$(find_all_solution_files)
-        else
-          affected_solution_files=$(find_affected_solution_files)
-        fi
-        echo "$affected_solution_files"
-
-        if [[ -n "$affected_solution_files" ]]; then
-          solutions_as_json=$(echo "$affected_solution_files" | jq -R -s -c 'split("\n")[:-1]')
-          echo "solutions=${solutions_as_json}" >> "${GITHUB_OUTPUT}"
-        fi
+          if [[ -n "$affected_solution_files" ]]; then
+            solutions_as_json=$(echo "$affected_solution_files" | jq -R -s -c 'split("\n")[:-1]')
+            echo "solutions=${solutions_as_json}" >> "${GITHUB_OUTPUT}"
+          fi
 
   build-and-test:
     runs-on: ubuntu-slim
@@ -74,28 +74,29 @@ jobs:
       contents: read
     needs: find-solutions
     if: ${{ needs.find-solutions.outputs.solutions != '' && needs.find-solutions.outputs.solutions != '[]' }}
+
     strategy:
       fail-fast: false
       matrix:
         solution: ${{ fromJSON(needs.find-solutions.outputs.solutions) }}
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-    - name: Setup
-      uses: actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7 # v5.2.0
-      with:
-        dotnet-version: |
-          8.0.x
-          9.0.x
-          10.0.x
+      - name: Setup
+        uses: actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7 # v5.2.0
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+            10.0.x
 
-    - name: Restore dependencies
-      run: dotnet restore ${{ matrix.solution }}
+      - name: Restore dependencies
+        run: dotnet restore ${{ matrix.solution }}
 
-    - name: Build
-      run: dotnet build ${{ matrix.solution }} --no-restore
+      - name: Build
+        run: dotnet build ${{ matrix.solution }} --no-restore
 
-    - name: Test
-      run: dotnet test ${{ matrix.solution }} --no-build --verbosity normal
+      - name: Test
+        run: dotnet test ${{ matrix.solution }} --no-build --verbosity normal
