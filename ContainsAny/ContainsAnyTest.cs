@@ -1,8 +1,6 @@
 ﻿
 using System.Buffers;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using Shouldly;
 
 [TestClass]

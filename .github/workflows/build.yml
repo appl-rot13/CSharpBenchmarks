@@ -46,17 +46,19 @@ jobs:
           }
 
           echo "Changed files:"
-          workflow_file_changed="false"
+          config_file_changed="false"
           for changed_file in ${CHANGED_FILES}; do
             echo "./$changed_file"
-            if [[ "./$changed_file" == "./.github/workflows/"* ]]; then
-              workflow_file_changed="true"
+            if [[ "$changed_file" == .github/workflows/* ]]; then
+              config_file_changed="true"
+            elif [[ "$changed_file" == *.props && "$changed_file" != */* ]]; then
+              config_file_changed="true"
             fi
           done
           echo ""
 
           echo "Affected solution files:"
-          if [[ "$workflow_file_changed" == "true" ]]; then
+          if [[ "$config_file_changed" == "true" ]]; then
             affected_solution_files=$(find_all_solution_files)
           else
             affected_solution_files=$(find_affected_solution_files)
