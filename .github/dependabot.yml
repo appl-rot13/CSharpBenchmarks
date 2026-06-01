@@ -4,9 +4,11 @@ updates:
     directory: "/"
     schedule:
       interval: weekly
+      day: friday
 
   - package-ecosystem: nuget
     directories:
       - "*"
     schedule:
       interval: weekly
+      day: friday
