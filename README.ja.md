@@ -2,7 +2,7 @@
 
 # C# Benchmarks
 
-[![GitHub Actions](../../actions/workflows/build.yml/badge.svg)](../../actions)
+[![GitHub Actions](../../actions/workflows/test.yml/badge.svg)](../../actions)
 
 実装のベンチマークテストを蓄積するためのリポジトリ。
 

@@ -1,4 +1,4 @@
-name: Build/Test
+name: Test
 
 on:
   push:
@@ -70,7 +70,7 @@ jobs:
             echo "solutions=${solutions_as_json}" >> "${GITHUB_OUTPUT}"
           fi
 
-  build-and-test:
+  test:
     runs-on: ubuntu-slim
     permissions:
       contents: read
