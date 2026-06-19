@@ -102,3 +102,22 @@ jobs:
 
       - name: Test
         run: dotnet test ${{ matrix.solution }} --no-build --verbosity normal
+
+  check-status:
+    runs-on: ubuntu-slim
+    permissions: {}
+    needs: test
+    if: always()
+
+    steps:
+      - name: Check status
+        run: |
+          echo '${{ toJson(needs) }}'
+
+          if [[ "${{ contains(needs.*.result, 'failure') }}" == "true" ]]; then
+            exit 1
+          fi
+
+          if [[ "${{ contains(needs.*.result, 'cancelled') }}" == "true" ]]; then
+            exit 1
+          fi
