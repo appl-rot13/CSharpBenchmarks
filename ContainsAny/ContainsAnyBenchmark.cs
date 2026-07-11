@@ -9,9 +9,9 @@ BenchmarkRunner.Run<ContainsAnyBenchmark>();
 [MemoryDiagnoser]
 public class ContainsAnyBenchmark
 {
-    private string source;
-    private string[] keywords;
-    private SearchValues<string> searchValues;
+    private string source = null!;
+    private string[] keywords = null!;
+    private SearchValues<string> searchValues = null!;
 
     [GlobalSetup]
     public void Setup()

@@ -7,9 +7,9 @@ BenchmarkRunner.Run<SortAlgorithmBenchmark>();
 [MemoryDiagnoser]
 public class SortAlgorithmBenchmark
 {
-    private int[] shuffledArray;
-    private int[] ascendingArray;
-    private int[] descendingArray;
+    private int[] shuffledArray = null!;
+    private int[] ascendingArray = null!;
+    private int[] descendingArray = null!;
 
     public enum Pattern
     {

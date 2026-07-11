@@ -7,8 +7,8 @@ BenchmarkRunner.Run<CompareByteArrayBenchmark>();
 [MemoryDiagnoser]
 public class CompareByteArrayBenchmark
 {
-    private byte[] first;
-    private byte[] second;
+    private byte[] first = null!;
+    private byte[] second = null!;
 
     [GlobalSetup]
     public void Setup()
