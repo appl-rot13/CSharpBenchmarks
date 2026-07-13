@@ -98,7 +98,7 @@ jobs:
         run: dotnet restore ${{ matrix.solution }}
 
       - name: Build
-        run: dotnet build ${{ matrix.solution }} --no-restore
+        run: dotnet build ${{ matrix.solution }} -p:NoWarn=CS7022 --no-restore
 
       - name: Test
         run: dotnet test ${{ matrix.solution }} --no-build --verbosity normal
