@@ -122,7 +122,7 @@ public partial class NumericalAnalysis
     public static double Simpson(Func<double, double> f, double a, double b)
     {
         var current = Simpson(f, a, b, 1);
-        for (var n = 2;; n *= 2)
+        for (var n = 2; ; n *= 2)
         {
             var next = Simpson(f, a, b, n);
 
