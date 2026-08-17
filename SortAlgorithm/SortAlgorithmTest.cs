@@ -1,5 +1,4 @@
-﻿
-using Shouldly;
+﻿using Shouldly;
 
 [TestClass]
 public class SortAlgorithmTest

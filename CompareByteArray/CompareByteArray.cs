@@ -1,5 +1,4 @@
-﻿
-public class CompareByteArray
+﻿public class CompareByteArray
 {
     public static bool CompareWithForLoop(byte[] first, byte[] second)
     {

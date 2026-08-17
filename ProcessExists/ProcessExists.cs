@@ -1,12 +1,11 @@
-﻿
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 public class ProcessExists
 {
     public static bool GetProcessesAny(string processName)
     {
-        return Process.GetProcesses().Any(
-            process => processName.Equals(process.ProcessName, StringComparison.OrdinalIgnoreCase));
+        return Process.GetProcesses()
+            .Any(process => processName.Equals(process.ProcessName, StringComparison.OrdinalIgnoreCase));
     }
 
     public static bool GetProcessesForEach(string processName)

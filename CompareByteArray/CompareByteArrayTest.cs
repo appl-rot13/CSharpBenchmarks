@@ -1,5 +1,4 @@
-﻿
-using Shouldly;
+﻿using Shouldly;
 
 [TestClass]
 public class CompareByteArrayTest
@@ -37,14 +36,14 @@ public class CompareByteArrayTest
     private static void Test(Func<byte[], byte[], bool> compareByteArray)
     {
         var testCase = new (byte[], byte[], bool)[]
-            {
-                ([1, 2, 3], [1, 2   ], false),
-                ([1, 2, 3], [       ], false),
-                ([1, 2   ], [1, 2, 3], false),
-                ([       ], [1, 2, 3], false),
-                ([1, 2, 3], [1, 2, 3], true ),
-                ([       ], [       ], true ),
-            };
+        {
+            ([1, 2, 3], [1, 2   ], false),
+            ([1, 2, 3], [       ], false),
+            ([1, 2   ], [1, 2, 3], false),
+            ([       ], [1, 2, 3], false),
+            ([1, 2, 3], [1, 2, 3], true ),
+            ([       ], [       ], true ),
+        };
 
         foreach (var (first, second, expected) in testCase)
         {

@@ -1,5 +1,4 @@
-﻿
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 
 BenchmarkRunner.Run<ComputeHashBenchmark>();
@@ -23,8 +22,11 @@ public class ComputeHashBenchmark
 
     private static List<(string, string)> Test(Func<string, byte[]> computeHash)
     {
-        return Directory.EnumerateFiles(TargetDirPath, "*", SearchOption.AllDirectories).AsParallel()
-            .Select(filePath => (filePath, ToHexString(computeHash(filePath)))).OrderBy(t => t.filePath).ToList();
+        return Directory.EnumerateFiles(TargetDirPath, "*", SearchOption.AllDirectories)
+            .AsParallel()
+            .Select(filePath => (filePath, ToHexString(computeHash(filePath))))
+            .OrderBy(t => t.filePath)
+            .ToList();
     }
 
     private static string ToHexString(byte[] bytes)

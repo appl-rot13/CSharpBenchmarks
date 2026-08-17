@@ -1,5 +1,4 @@
-﻿
-using Shouldly;
+﻿using Shouldly;
 
 [assembly: Parallelize]
 
@@ -22,7 +21,7 @@ public class NumericalAnalysisTest
         for (var x = -5.0; x <= 5.0; x += 0.5)
         {
             var exp = NumericalAnalysis.MaclaurinExp(x);
-            Console.WriteLine($"exp({x,4:F1}) = {exp,21:F17}");
+            Console.WriteLine($"exp({x, 4:F1}) = {exp, 21:F17}");
 
             exp.ShouldBe(Math.Exp(x), 1e-13);
         }
@@ -36,7 +35,7 @@ public class NumericalAnalysisTest
         {
             var x = (Math.PI / 6.0) * i;
             var sin = NumericalAnalysis.MaclaurinSin(x);
-            Console.WriteLine($"sin({x,20:F17}) = {sin,20:F17}");
+            Console.WriteLine($"sin({x, 20:F17}) = {sin, 20:F17}");
 
             sin.ShouldBe(Math.Sin(x), 1e-13);
         }
@@ -50,7 +49,7 @@ public class NumericalAnalysisTest
         {
             var x = (Math.PI / 6.0) * i;
             var cos = NumericalAnalysis.MaclaurinCos(x);
-            Console.WriteLine($"cos({x,20:F17}) = {cos,20:F17}");
+            Console.WriteLine($"cos({x, 20:F17}) = {cos, 20:F17}");
 
             cos.ShouldBe(Math.Cos(x), 1e-13);
         }
@@ -62,7 +61,7 @@ public class NumericalAnalysisTest
         for (var x = 0.0; x <= 10.0; x += 0.5)
         {
             var sqrt = NumericalAnalysis.NewtonSqrt(x);
-            Console.WriteLine($"sqrt({x,4:F1}) = {sqrt,19:F17}");
+            Console.WriteLine($"sqrt({x, 4:F1}) = {sqrt, 19:F17}");
 
             sqrt.ShouldBe(Math.Sqrt(x), 1e-13);
         }
@@ -74,7 +73,7 @@ public class NumericalAnalysisTest
         for (var x = 0.0; x <= 10.0; x += 0.5)
         {
             var cbrt = NumericalAnalysis.NewtonCbrt(x);
-            Console.WriteLine($"cbrt({x,4:F1}) = {cbrt,19:F17}");
+            Console.WriteLine($"cbrt({x, 4:F1}) = {cbrt, 19:F17}");
 
             cbrt.ShouldBe(Math.Cbrt(x), 1e-13);
         }
@@ -86,7 +85,7 @@ public class NumericalAnalysisTest
         // 区間 [-2, 3] における f(x) = x^3 + 2x^2 + x - 1 の定積分
         var fx = (double x) => x * x * x + 2.0 * x * x + x - 1.0;
         var integral = NumericalAnalysis.Simpson(fx, -2.0, 3.0);
-        Console.WriteLine($"Integral [-2..3] (x^3 + 2x^2 + x - 1) dx = {integral,20:F17}");
+        Console.WriteLine($"Integral [-2..3] (x^3 + 2x^2 + x - 1) dx = {integral, 20:F17}");
 
         integral.ShouldBe(445.0 / 12.0, 1e-10);
     }
@@ -96,7 +95,7 @@ public class NumericalAnalysisTest
     {
         // 区間 [0, PI] における f(x) = sin(x) の定積分
         var integral = NumericalAnalysis.Simpson(Math.Sin, 0.0, Math.PI);
-        Console.WriteLine($"Integral [0..PI] sin(x) dx = {integral,20:F17}");
+        Console.WriteLine($"Integral [0..PI] sin(x) dx = {integral, 20:F17}");
 
         integral.ShouldBe(2.0, 1e-10);
     }
@@ -111,7 +110,7 @@ public class NumericalAnalysisTest
 
             // dy/dx = y, y(0) = 1 の解は y = exp(x)
             var y = NumericalAnalysis.Euler((x, y) => y, 1.0, 0.0, 1.0, h);
-            Console.WriteLine($"y(1) = {y,19:F17}, h = {h,6}, tolerance = {Math.Exp(1.0) - y,20:F17}");
+            Console.WriteLine($"y(1) = {y, 19:F17}, h = {h, 6}, tolerance = {Math.Exp(1.0) - y, 20:F17}");
 
             y.ShouldBe(Math.Exp(1.0), 0.02);
         }
@@ -127,7 +126,7 @@ public class NumericalAnalysisTest
 
             // dy/dx = y, y(0) = 1 の解は y = exp(x)
             var y = NumericalAnalysis.RungeKutta((x, y) => y, 1.0, 0.0, 1.0, h);
-            Console.WriteLine($"y(1) = {y,19:F17}, h = {h,6}, tolerance = {Math.Exp(1.0) - y,20:F17}");
+            Console.WriteLine($"y(1) = {y, 19:F17}, h = {h, 6}, tolerance = {Math.Exp(1.0) - y, 20:F17}");
 
             y.ShouldBe(Math.Exp(1.0), 1e-9);
         }
@@ -144,7 +143,7 @@ public class NumericalAnalysisTest
         };
 
         var x = NumericalAnalysis.GaussianElimination(matrix);
-        Console.WriteLine("x = \n[\n" + string.Join(",\n", x.Select(value => $"{value,22:F17}")) + "\n]");
+        Console.WriteLine("x = \n[\n" + string.Join(",\n", x.Select(value => $"{value, 22:F17}")) + "\n]");
 
         x[0].ShouldBe( 2.0, 1e-13);
         x[1].ShouldBe( 3.0, 1e-13);
@@ -162,7 +161,7 @@ public class NumericalAnalysisTest
         };
 
         var x = NumericalAnalysis.GaussJordanElimination(matrix);
-        Console.WriteLine("x = \n[\n" + string.Join(",\n", x.Select(value => $"{value,22:F17}")) + "\n]");
+        Console.WriteLine("x = \n[\n" + string.Join(",\n", x.Select(value => $"{value, 22:F17}")) + "\n]");
 
         x[0].ShouldBe( 2.0, 1e-13);
         x[1].ShouldBe( 3.0, 1e-13);

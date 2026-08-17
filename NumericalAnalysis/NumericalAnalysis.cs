@@ -1,5 +1,4 @@
-﻿
-public partial class NumericalAnalysis
+﻿public partial class NumericalAnalysis
 {
     public static double MonteCarloPi(long n, int? seed = null)
     {

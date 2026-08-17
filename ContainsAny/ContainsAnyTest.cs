@@ -1,6 +1,4 @@
-﻿
-using System.Buffers;
-
+﻿using System.Buffers;
 using Shouldly;
 
 [TestClass]
@@ -27,12 +25,12 @@ public class ContainsAnyTest
     private static void Test(Func<string, string[], bool> containsAny)
     {
         var testCase = new (string, string[], bool)[]
-            {
-                ("a"    , ["aaa", "bbb", "ccc"], false),
-                ("bbb"  , ["aaa", "bbb", "ccc"], true ),
-                ("ccccc", ["aaa", "bbb", "ccc"], true ),
-                (""     , [                   ], false),
-            };
+        {
+            ("a"    , ["aaa", "bbb", "ccc"], false),
+            ("bbb"  , ["aaa", "bbb", "ccc"], true ),
+            ("ccccc", ["aaa", "bbb", "ccc"], true ),
+            (""     , [                   ], false),
+        };
 
         foreach (var (source, keywords, expected) in testCase)
         {

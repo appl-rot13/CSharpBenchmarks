@@ -1,5 +1,4 @@
-﻿
-public class SortAlgorithm
+﻿public class SortAlgorithm
 {
     public static void BubbleSort(int[] array)
     {

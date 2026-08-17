@@ -1,6 +1,4 @@
-﻿
-using System.Buffers;
-
+﻿using System.Buffers;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 
