@@ -1,8 +1,9 @@
 ## Result
 
-- IEnumerable<byte>のSequenceEqual()は内部で型判定して高速化しているはずだが、意外と遅い
-- byte[]をAsSpan()でSpan<byte>に変換してからSequenceEqual()を呼び出すのが、安定して速い
-- 配列のサイズが小さい、配列が異なる可能性が高い等の条件次第では、forループも候補になる
+- ~~`IEnumerable<byte>` の `SequenceEqual()` は内部で型判定して高速化しているはずだが、意外と遅い~~
+- ~~`byte[]` を `AsSpan()` で `Span<byte>` に変換してから `SequenceEqual()` を呼び出すのが、安定して速い~~
+- ~~配列のサイズが小さい、配列が異なる可能性が高い等の条件次第では、forループも候補になる~~
+- 現在はそのまま `SequenceEqual()` を呼び出すのが、安定して速い
 
 ```
 BenchmarkDotNet v0.14.0, Windows 11 (10.0.26100.2033)
@@ -34,3 +35,34 @@ Intel Core i7-10700 CPU 2.90GHz, 1 CPU, 16 logical and 8 physical cores
 | CompareCastToReadOnlySpan | 1024 | True        |  21.0777 ns | 0.0462 ns | 0.0432 ns |  21.0781 ns |         - |
 | CompareCastToSpan         | 1024 | True        |  15.6337 ns | 0.3397 ns | 0.5581 ns |  15.8454 ns |         - |
 | CompareAsSpan             | 1024 | True        |  15.3748 ns | 0.3214 ns | 0.2849 ns |  15.4653 ns |         - |
+
+```
+BenchmarkDotNet v0.14.0, Windows 11 (10.0.26200.9550)
+Intel Core i7-10700 CPU 2.90GHz, 1 CPU, 16 logical and 8 physical cores
+.NET SDK 10.0.401
+  [Host]     : .NET 10.0.12 (10.0.1226.42308), X64 RyuJIT AVX2
+  DefaultJob : .NET 10.0.12 (10.0.1226.42308), X64 RyuJIT AVX2
+```
+
+| Method                    | N    | ArrayEquals | Mean        | Error     | StdDev    | Allocated |
+|-------------------------- |----- |------------ |------------:|----------:|----------:|----------:|
+| CompareWithForLoop        | 32   | False       |   0.1065 ns | 0.0035 ns | 0.0033 ns |         - |
+| CompareWithSequenceEqual  | 32   | False       |   0.6724 ns | 0.0065 ns | 0.0061 ns |         - |
+| CompareCastToReadOnlySpan | 32   | False       |   0.7195 ns | 0.0052 ns | 0.0046 ns |         - |
+| CompareCastToSpan         | 32   | False       |   0.7207 ns | 0.0051 ns | 0.0045 ns |         - |
+| CompareAsSpan             | 32   | False       |   0.6767 ns | 0.0041 ns | 0.0036 ns |         - |
+| CompareWithForLoop        | 32   | True        |   9.9131 ns | 0.0881 ns | 0.0824 ns |         - |
+| CompareWithSequenceEqual  | 32   | True        |   0.7547 ns | 0.0057 ns | 0.0054 ns |         - |
+| CompareCastToReadOnlySpan | 32   | True        |   0.8217 ns | 0.0055 ns | 0.0052 ns |         - |
+| CompareCastToSpan         | 32   | True        |   0.8293 ns | 0.0070 ns | 0.0066 ns |         - |
+| CompareAsSpan             | 32   | True        |   0.7745 ns | 0.0051 ns | 0.0048 ns |         - |
+| CompareWithForLoop        | 1024 | False       |   0.1076 ns | 0.0032 ns | 0.0030 ns |         - |
+| CompareWithSequenceEqual  | 1024 | False       |   0.6702 ns | 0.0022 ns | 0.0019 ns |         - |
+| CompareCastToReadOnlySpan | 1024 | False       |   0.7210 ns | 0.0061 ns | 0.0057 ns |         - |
+| CompareCastToSpan         | 1024 | False       |   0.7192 ns | 0.0041 ns | 0.0038 ns |         - |
+| CompareAsSpan             | 1024 | False       |   0.6762 ns | 0.0041 ns | 0.0038 ns |         - |
+| CompareWithForLoop        | 1024 | True        | 329.7669 ns | 1.0848 ns | 1.0147 ns |         - |
+| CompareWithSequenceEqual  | 1024 | True        |  14.9766 ns | 0.0369 ns | 0.0345 ns |         - |
+| CompareCastToReadOnlySpan | 1024 | True        |  15.3455 ns | 0.1256 ns | 0.1175 ns |         - |
+| CompareCastToSpan         | 1024 | True        |  14.3165 ns | 0.1690 ns | 0.1581 ns |         - |
+| CompareAsSpan             | 1024 | True        |  14.3058 ns | 0.0531 ns | 0.0470 ns |         - |

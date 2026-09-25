@@ -1,7 +1,7 @@
 ## Result
 
-- StringCreateが使えるなら使う
-- StringBuilderは安定して速い
+- `string.Create()` が使えるなら使う
+- `StringBuilder` は安定して速い
 - 可能であれば最大文字列長を指定する
 
 ```
@@ -21,3 +21,21 @@ Intel Core i7-10700 CPU 2.90GHz, 1 CPU, 16 logical and 8 physical cores
 | BuilderSpecifiedCapacity         | 28.00 ns | 0.516 ns | 0.483 ns | 0.0153 |     128 B |
 | StringCreate                     | 10.08 ns | 0.058 ns | 0.052 ns | 0.0048 |      40 B |
 | DefaultInterpolatedStringHandler | 39.90 ns | 0.210 ns | 0.186 ns | 0.0048 |      40 B |
+
+```
+BenchmarkDotNet v0.14.0, Windows 11 (10.0.26200.9550)
+Intel Core i7-10700 CPU 2.90GHz, 1 CPU, 16 logical and 8 physical cores
+.NET SDK 10.0.401
+  [Host]     : .NET 10.0.12 (10.0.1226.42308), X64 RyuJIT AVX2
+  DefaultJob : .NET 10.0.12 (10.0.1226.42308), X64 RyuJIT AVX2
+```
+
+| Method                           | Mean      | Error     | StdDev    | Gen0   | Allocated |
+|--------------------------------- |----------:|----------:|----------:|-------:|----------:|
+| OperatorAggregate                | 54.647 ns | 0.3480 ns | 0.3255 ns | 0.0353 |     296 B |
+| Operator                         | 48.322 ns | 0.4713 ns | 0.4408 ns | 0.0325 |     272 B |
+| Concat                           | 40.097 ns | 0.1519 ns | 0.1421 ns | 0.0210 |     176 B |
+| Builder                          | 23.588 ns | 0.1403 ns | 0.1243 ns | 0.0172 |     144 B |
+| BuilderSpecifiedCapacity         | 22.952 ns | 0.0915 ns | 0.0811 ns | 0.0153 |     128 B |
+| StringCreate                     |  8.456 ns | 0.0347 ns | 0.0307 ns | 0.0048 |      40 B |
+| DefaultInterpolatedStringHandler | 25.253 ns | 0.0632 ns | 0.0527 ns | 0.0048 |      40 B |

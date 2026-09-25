@@ -12,3 +12,16 @@ Intel Core i7-10700 CPU 2.90GHz, 1 CPU, 16 logical and 8 physical cores
 |----------------------- |----------:|---------:|---------:|--------:|----------:|
 | ComputeHashWithLock    | 146.55 ms | 0.559 ms | 0.496 ms |       - | 255.42 KB |
 | ComputeHashWithoutLock |  28.18 ms | 0.552 ms | 0.717 ms | 31.2500 | 264.87 KB |
+
+```
+BenchmarkDotNet v0.14.0, Windows 11 (10.0.26200.9550)
+Intel Core i7-10700 CPU 2.90GHz, 1 CPU, 16 logical and 8 physical cores
+.NET SDK 10.0.401
+  [Host]     : .NET 10.0.12 (10.0.1226.42308), X64 RyuJIT AVX2
+  DefaultJob : .NET 10.0.12 (10.0.1226.42308), X64 RyuJIT AVX2
+```
+
+| Method                 | Mean      | Error    | StdDev   | Gen0    | Allocated |
+|----------------------- |----------:|---------:|---------:|--------:|----------:|
+| ComputeHashWithLock    | 150.96 ms | 0.406 ms | 0.380 ms |       - | 259.07 KB |
+| ComputeHashWithoutLock |  28.52 ms | 0.564 ms | 0.753 ms | 31.2500 | 269.26 KB |
